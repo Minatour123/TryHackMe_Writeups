@@ -1,5 +1,7 @@
 Room link: https://tryhackme.com/room/aratus
 
+![image](https://user-images.githubusercontent.com/63553752/160260043-ffc1c32e-9d12-43db-b6c6-f590470a1c45.png)
+
 I have an understanding of the foothold since I was watching a friend of mine attempt this room, although he never got the foothold, rather just files from smb, so I knew it was going to be that.
 I would say I know what it isn't rather than I know what it is.
 
