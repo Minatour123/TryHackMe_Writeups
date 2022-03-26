@@ -295,10 +295,14 @@ timeout 1 tcpdump
 
 ```
 
-So now we transfer over pspy 
+So now we transfer over pspy which is a process monitoring command line tool that we can use without root access.
 https://github.com/DominicBreuker/pspy
 
-over to the machine to see what processes are being run.
+You only need to download the:
+64 bit big, static version: pspy64 
+and transfer it over to the victim machine.
+
+We change it to an executable, and then we start snooping on the processes that are happening.
 
 After a while you see an interesting command being ran constantly in intervals
 
