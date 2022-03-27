@@ -255,7 +255,12 @@ but nothing pops up besides /var/spool/mail/simeon
 
 sudo -l also doesn't work since it says I can't run sudo as simeon on aratus.
 
-I attempted to upload linpeas to the machine by hosting a simple server in my /opt directory, and then trying wget on the aratus machine, but it turns out it doesn't have wget.
+I attempted to upload linpeas to the machine by hosting a simple server in my /opt directory
+
+```
+python3 -m http.server 8000
+```
+and then trying wget on the aratus machine, but it turns out it doesn't have wget.
 
 So we just use curl instead.
 
