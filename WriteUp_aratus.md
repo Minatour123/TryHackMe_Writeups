@@ -359,7 +359,7 @@ User-Agent: python-requests/2.14.2
 Accept-Encoding: gzip, deflate
 Accept: */*
 Connection: keep-alive
-Authorization: Basic dGhlb2RvcmU6UmlqeWFzd2FoZWJjZWliYXJqaWs=
+Authorization: Basic [REDACTED]
 ```
 
 ```
